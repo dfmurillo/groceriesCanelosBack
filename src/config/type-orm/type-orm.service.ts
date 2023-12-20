@@ -14,6 +14,7 @@ export class TypeOrmService implements TypeOrmOptionsFactory {
       username: this.appConfig.postgresUser,
       password: this.appConfig.postgresPassword,
       database: this.appConfig.postgresDb,
+      autoLoadEntities: true,
       synchronize: this.appConfig.environment === 'prod' ? false : true,
     };
   }

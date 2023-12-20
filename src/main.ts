@@ -4,6 +4,7 @@ import { DocumentBuilder, SwaggerModule } from '@nestjs/swagger';
 import { AppModule } from './app.module';
 import { AppConfigService } from './config/app/app-config.service';
 import helmet from 'helmet';
+import { HttpExceptionFilter } from './infra/errors/http-exception.filter';
 
 async function bootstrap() {
   const logger = new Logger('App');
@@ -17,7 +18,8 @@ async function bootstrap() {
   });
   const appConfig = app.get(AppConfigService);
 
-  app.useGlobalPipes(new ValidationPipe());
+  app.useGlobalPipes(new ValidationPipe({ stopAtFirstError: true }));
+  app.useGlobalFilters(new HttpExceptionFilter());
 
   app.use(
     helmet({
