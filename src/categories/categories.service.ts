@@ -20,8 +20,9 @@ export class CategoriesService {
       const category = new Category();
       category.name = createCategoryDto.name;
       category.user = user;
-
-      return await this.categoryRepository.save(category);
+      const newCategory = await this.categoryRepository.save(category);
+      delete newCategory.user; // TODO
+      return newCategory;
     } catch (error) {
       throw new GroceriesAppException('category.create');
     }
