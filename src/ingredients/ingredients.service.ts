@@ -1,11 +1,41 @@
 import { Injectable } from '@nestjs/common';
 import { CreateIngredientDto } from './dto/create-ingredient.dto';
 import { UpdateIngredientDto } from './dto/update-ingredient.dto';
+import { Ingredient } from './entities/ingredient.entity';
+import { InjectRepository } from '@nestjs/typeorm';
+import { Repository } from 'typeorm';
+import { GroceriesAppException } from '@/infra/errors/general.exception';
 
 @Injectable()
 export class IngredientsService {
-  create(createIngredientDto: CreateIngredientDto) {
-    return 'This action adds a new ingredient';
+  constructor(
+    @InjectRepository(Ingredient)
+    private readonly ingredientRepository: Repository<Ingredient>,
+  ) {}
+
+  async create(createIngredientDto: CreateIngredientDto | CreateIngredientDto[]) {
+    try {
+      if (!Array.isArray(createIngredientDto)) {
+        createIngredientDto = [createIngredientDto];
+      }
+
+      const ingredientsToCreate = [];
+      for (const key in createIngredientDto) {
+        if (Object.prototype.hasOwnProperty.call(createIngredientDto, key)) {
+          const ingredientDto = createIngredientDto[key];
+
+          const ingredient = new Ingredient();
+          ingredient.name = ingredientDto.name.toLocaleLowerCase();
+          ingredient.user = 2; //TODO
+
+          ingredientsToCreate.push(ingredient);
+        }
+      }
+
+      return await this.ingredientRepository.save(ingredientsToCreate);
+    } catch (error) {
+      throw new GroceriesAppException('ingredient.create');
+    }
   }
 
   findAll() {

@@ -1,5 +1,4 @@
 import { Category } from '@/categories/entities/category.entity';
-import { User } from '@/users/entities/user.entity';
 import { Column, Entity, ManyToOne, PrimaryGeneratedColumn } from 'typeorm';
 
 @Entity()
@@ -10,9 +9,6 @@ export class Tag {
   @Column()
   name: string;
 
-  @ManyToOne((type) => User, (user) => user.id)
-  user: User;
-
-  @ManyToOne((type) => Category, (category) => category.id)
+  @ManyToOne((type) => Category, (category) => category.id, { onDelete: 'CASCADE' })
   category: Category;
 }

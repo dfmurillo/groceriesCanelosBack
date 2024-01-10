@@ -10,6 +10,6 @@ export class IngredientTag {
   @ManyToOne((type) => Ingredient, (ingredient) => ingredient.id)
   ingredient: number;
 
-  @ManyToOne((type) => Tag, (tag) => tag.id)
+  @ManyToOne((type) => Tag, (tag) => tag.id, { onDelete: 'CASCADE' })
   tag: number;
 }

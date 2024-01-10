@@ -8,6 +8,7 @@ import {
   Delete,
   NotFoundException,
   NotImplementedException,
+  ConflictException,
 } from '@nestjs/common';
 import { UsersService } from './users.service';
 import { CreateUserDto } from './dto/create-user.dto';
@@ -18,8 +19,18 @@ export class UsersController {
   constructor(private readonly usersService: UsersService) {}
 
   @Post()
-  create(@Body() createUserDto: CreateUserDto) {
-    return this.usersService.create(createUserDto);
+  async create(@Body() createUserDto: CreateUserDto) {
+    try {
+      return await this.usersService.create(createUserDto);
+    } catch (error) {
+      switch (error.name) {
+        case 'user.create.slug':
+          throw new ConflictException('The slug is already in use');
+
+        default:
+          throw new NotImplementedException(error.name);
+      }
+    }
   }
 
   @Get(':id')

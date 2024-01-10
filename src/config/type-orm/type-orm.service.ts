@@ -16,6 +16,7 @@ export class TypeOrmService implements TypeOrmOptionsFactory {
       database: this.appConfig.postgresDb,
       autoLoadEntities: true,
       synchronize: this.appConfig.environment === 'prod' ? false : true,
+      logging: this.appConfig.environment === 'prod' ? false : true,
     };
   }
 }
