@@ -23,8 +23,7 @@ async function bootstrap() {
 
   app.use(
     helmet({
-      contentSecurityPolicy:
-        appConfig.environment === 'localhost' ? false : undefined,
+      contentSecurityPolicy: appConfig.environment === 'localhost' ? false : undefined,
     }),
   );
 

@@ -1,11 +1,15 @@
+import { Category } from '@/categories/entities/category.entity';
 import { Ingredient } from '@/ingredients/entities/ingredient.entity';
 import { Meal } from '@/meals/entities/meal.entity';
 import { Menu } from '@/menus/entities/menu.entity';
-import { Tag } from '@/tags/entities/tag.entity';
 import { Column, Entity, OneToMany, PrimaryGeneratedColumn } from 'typeorm';
 
 @Entity()
 export class User {
+  constructor(userId?) {
+    if (userId) this.id = userId;
+  }
+
   @PrimaryGeneratedColumn()
   id: number;
 
@@ -24,8 +28,8 @@ export class User {
   @OneToMany((type) => Menu, (menu) => menu.user)
   userMenus: Menu[];
 
-  @OneToMany((type) => Tag, (tag) => tag.user)
-  userTags: Tag[];
+  @OneToMany((type) => Category, (category) => category.user)
+  userCategories: Category[];
 
   @OneToMany((type) => Meal, (meal) => meal.user)
   userMeals: Meal[];

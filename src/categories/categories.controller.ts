@@ -3,21 +3,31 @@ import {
   Get,
   Post,
   Body,
-  Patch,
   Param,
   Delete,
+  NotImplementedException,
+  InternalServerErrorException,
 } from '@nestjs/common';
 import { CategoriesService } from './categories.service';
 import { CreateCategoryDto } from './dto/create-category.dto';
-import { UpdateCategoryDto } from './dto/update-category.dto';
 
 @Controller('categories')
 export class CategoriesController {
   constructor(private readonly categoriesService: CategoriesService) {}
 
   @Post()
-  create(@Body() createCategoryDto: CreateCategoryDto) {
-    return this.categoriesService.create(createCategoryDto);
+  async create(@Body() createCategoryDto: CreateCategoryDto) {
+    try {
+      return await this.categoriesService.create(createCategoryDto);
+    } catch (error) {
+      switch (error.name) {
+        case 'category.create':
+          throw new InternalServerErrorException('Error saving the category');
+
+        default:
+          throw new NotImplementedException(error.name);
+      }
+    }
   }
 
   @Get()
@@ -25,21 +35,18 @@ export class CategoriesController {
     return this.categoriesService.findAll();
   }
 
-  @Get(':id')
-  findOne(@Param('id') id: string) {
-    return this.categoriesService.findOne(+id);
-  }
-
-  @Patch(':id')
-  update(
-    @Param('id') id: string,
-    @Body() updateCategoryDto: UpdateCategoryDto,
-  ) {
-    return this.categoriesService.update(+id, updateCategoryDto);
-  }
-
   @Delete(':id')
-  remove(@Param('id') id: string) {
-    return this.categoriesService.remove(+id);
+  async remove(@Param('id') id: string) {
+    try {
+      return await this.categoriesService.remove(+id);
+    } catch (error) {
+      switch (error.name) {
+        case 'category.delete':
+          throw new InternalServerErrorException('Error removing the selected category');
+
+        default:
+          throw new NotImplementedException(error.name);
+      }
+    }
   }
 }

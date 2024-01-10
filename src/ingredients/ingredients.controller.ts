@@ -8,7 +8,7 @@ export class IngredientsController {
   constructor(private readonly ingredientsService: IngredientsService) {}
 
   @Post()
-  create(@Body() createIngredientDto: CreateIngredientDto) {
+  create(@Body() createIngredientDto: CreateIngredientDto | CreateIngredientDto[]) {
     return this.ingredientsService.create(createIngredientDto);
   }
 

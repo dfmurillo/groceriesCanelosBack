@@ -23,7 +23,12 @@ export class UsersService {
 
       return await this.usersRepository.save(user);
     } catch (error) {
-      console.log('ppp');
+      // Postgress code for a unique key violation
+      if (error.code === '23505') {
+        throw new GroceriesAppException('user.create.slug');
+      }
+
+      throw new GroceriesAppException('user.create');
     }
   }
 
