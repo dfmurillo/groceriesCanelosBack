@@ -7,9 +7,11 @@ import {
   Delete,
   InternalServerErrorException,
   NotImplementedException,
+  Patch,
 } from '@nestjs/common';
 import { TagsService } from './tags.service';
 import { CreateTagDto } from './dto/create-tag.dto';
+import { UpdateTagDto } from './dto/update-tag.dto';
 
 @Controller('tags')
 export class TagsController {
@@ -21,8 +23,8 @@ export class TagsController {
       return await this.tagsService.create(createTagDto);
     } catch (error) {
       switch (error.name) {
-        case 'category.create':
-          throw new InternalServerErrorException('Error removing the selected category');
+        case 'tag.create':
+          throw new InternalServerErrorException('Error removing the selected tag');
 
         default:
           throw new NotImplementedException(error.name);
@@ -33,6 +35,21 @@ export class TagsController {
   @Get()
   findAll() {
     return this.tagsService.findAll();
+  }
+
+  @Patch(':id')
+  async update(@Param('id') id: string, @Body() updateTagDto: UpdateTagDto) {
+    try {
+      return await this.tagsService.update(+id, updateTagDto);
+    } catch (error) {
+      switch (error.name) {
+        case 'tag.update':
+          throw new InternalServerErrorException('Error updating the selected tag');
+
+        default:
+          throw new NotImplementedException(error.name);
+      }
+    }
   }
 
   @Delete(':id')

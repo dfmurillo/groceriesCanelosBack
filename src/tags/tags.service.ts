@@ -5,6 +5,7 @@ import { Tag } from './entities/tag.entity';
 import { InjectRepository } from '@nestjs/typeorm';
 import { Repository } from 'typeorm';
 import { GroceriesAppException } from '@/infra/errors/general.exception';
+import { UpdateTagDto } from './dto/update-tag.dto';
 
 @Injectable()
 export class TagsService {
@@ -43,8 +44,16 @@ export class TagsService {
     return `This action returns all tags`;
   }
 
-  findOne(id: number) {
-    return `This action returns a #${id} tag`;
+  async update(id: number, updateTagDto: UpdateTagDto) {
+    try {
+      const tag = new Tag();
+      tag.name = updateTagDto.name;
+      tag.id = id;
+
+      return await this.tagRepository.save(tag);
+    } catch (error) {
+      throw new GroceriesAppException('tag.update');
+    }
   }
 
   async remove(id: number) {
