@@ -7,9 +7,11 @@ import {
   Delete,
   NotImplementedException,
   InternalServerErrorException,
+  Patch,
 } from '@nestjs/common';
 import { CategoriesService } from './categories.service';
 import { CreateCategoryDto } from './dto/create-category.dto';
+import { UpdateCategoryDto } from './dto/update-category.dto';
 
 @Controller('categories')
 export class CategoriesController {
@@ -33,6 +35,21 @@ export class CategoriesController {
   @Get()
   findAll() {
     return this.categoriesService.findAll();
+  }
+
+  @Patch(':id')
+  async update(@Param('id') id: string, @Body() updateCategoryDto: UpdateCategoryDto) {
+    try {
+      return await this.categoriesService.update(+id, updateCategoryDto);
+    } catch (error) {
+      switch (error.name) {
+        case 'category.create':
+          throw new InternalServerErrorException('Error updating the selected category');
+
+        default:
+          throw new NotImplementedException(error.name);
+      }
+    }
   }
 
   @Delete(':id')

@@ -5,6 +5,7 @@ import { Category } from './entities/category.entity';
 import { Equal, Repository } from 'typeorm';
 import { GroceriesAppException } from '@/infra/errors/general.exception';
 import { User } from '@/users/entities/user.entity';
+import { UpdateCategoryDto } from './dto/update-category.dto';
 
 @Injectable()
 export class CategoriesService {
@@ -43,8 +44,16 @@ export class CategoriesService {
     return categories;
   }
 
-  findOne(id: number) {
-    return `This action returns a #${id} category`;
+  async update(id: number, updateCategoryDto: UpdateCategoryDto) {
+    try {
+      const category = new Category();
+      category.name = updateCategoryDto.name;
+      category.id = id;
+
+      return await this.categoryRepository.save(category);
+    } catch (error) {
+      throw new GroceriesAppException('category.update');
+    }
   }
 
   async remove(id: number) {
