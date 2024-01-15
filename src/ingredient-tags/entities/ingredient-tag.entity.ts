@@ -7,9 +7,11 @@ export class IngredientTag {
   @PrimaryGeneratedColumn()
   id: number;
 
-  @ManyToOne((type) => Ingredient, (ingredient) => ingredient.id)
-  ingredient: number;
+  @ManyToOne((type) => Ingredient, (ingredient) => ingredient.ingredientTags, {
+    onDelete: 'CASCADE',
+  })
+  ingredient: Ingredient;
 
-  @ManyToOne((type) => Tag, (tag) => tag.id, { onDelete: 'CASCADE' })
-  tag: number;
+  @ManyToOne((type) => Tag, (tag) => tag.ingredientTags, { onDelete: 'CASCADE' })
+  tag: Tag;
 }

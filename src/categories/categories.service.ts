@@ -22,6 +22,7 @@ export class CategoriesService {
       category.name = createCategoryDto.name;
       category.user = user;
       const newCategory = await this.categoryRepository.save(category);
+
       delete newCategory.user; // TODO
       return newCategory;
     } catch (error) {

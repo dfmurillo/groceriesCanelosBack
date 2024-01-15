@@ -1,4 +1,14 @@
-import { Controller, Get, Post, Body, Patch, Param, Delete } from '@nestjs/common';
+import {
+  Controller,
+  Get,
+  Post,
+  Body,
+  Patch,
+  Param,
+  Delete,
+  InternalServerErrorException,
+  NotImplementedException,
+} from '@nestjs/common';
 import { IngredientsService } from './ingredients.service';
 import { CreateIngredientDto } from './dto/create-ingredient.dto';
 import { UpdateIngredientDto } from './dto/update-ingredient.dto';
@@ -8,27 +18,62 @@ export class IngredientsController {
   constructor(private readonly ingredientsService: IngredientsService) {}
 
   @Post()
-  create(@Body() createIngredientDto: CreateIngredientDto | CreateIngredientDto[]) {
-    return this.ingredientsService.create(createIngredientDto);
+  async create(@Body() createIngredientDto: CreateIngredientDto | CreateIngredientDto[]) {
+    try {
+      return await this.ingredientsService.create(createIngredientDto);
+    } catch (error) {
+      switch (error.name) {
+        case 'ingredient.create':
+          throw new InternalServerErrorException('Error creating ingredients');
+
+        default:
+          throw new NotImplementedException(error);
+      }
+    }
   }
 
   @Get()
-  findAll() {
-    return this.ingredientsService.findAll();
-  }
+  async findAll() {
+    try {
+      return await this.ingredientsService.findAll();
+    } catch (error) {
+      switch (error.name) {
+        case 'ingredient.get':
+          throw new InternalServerErrorException('Error fetching ingredients');
 
-  @Get(':id')
-  findOne(@Param('id') id: string) {
-    return this.ingredientsService.findOne(+id);
+        default:
+          throw new NotImplementedException(error);
+      }
+    }
   }
 
   @Patch(':id')
-  update(@Param('id') id: string, @Body() updateIngredientDto: UpdateIngredientDto) {
-    return this.ingredientsService.update(+id, updateIngredientDto);
+  async update(@Param('id') id: string, @Body() updateIngredientDto: UpdateIngredientDto) {
+    try {
+      return await this.ingredientsService.update(+id, updateIngredientDto);
+    } catch (error) {
+      switch (error.name) {
+        case 'ingredient.update':
+          throw new InternalServerErrorException('Error updating the ingredient');
+
+        default:
+          throw new NotImplementedException(error);
+      }
+    }
   }
 
   @Delete(':id')
-  remove(@Param('id') id: string) {
-    return this.ingredientsService.remove(+id);
+  async remove(@Param('id') id: string) {
+    try {
+      return await this.ingredientsService.remove(+id);
+    } catch (error) {
+      switch (error.name) {
+        case 'ingredient.remove':
+          throw new InternalServerErrorException('Error removing the ingredient');
+
+        default:
+          throw new NotImplementedException(error);
+      }
+    }
   }
 }
