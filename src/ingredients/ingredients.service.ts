@@ -3,7 +3,7 @@ import { CreateIngredientDto } from './dto/create-ingredient.dto';
 import { UpdateIngredientDto } from './dto/update-ingredient.dto';
 import { Ingredient } from './entities/ingredient.entity';
 import { InjectRepository } from '@nestjs/typeorm';
-import { Repository } from 'typeorm';
+import { Equal, Repository } from 'typeorm';
 import { GroceriesAppException } from '@/infra/errors/general.exception';
 
 @Injectable()
@@ -14,6 +14,7 @@ export class IngredientsService {
   ) {}
 
   async create(createIngredientDto: CreateIngredientDto | CreateIngredientDto[]) {
+    const user = 2; // TODO
     try {
       if (!Array.isArray(createIngredientDto)) {
         createIngredientDto = [createIngredientDto];
@@ -26,7 +27,7 @@ export class IngredientsService {
 
           const ingredient = new Ingredient();
           ingredient.name = ingredientDto.name.toLocaleLowerCase();
-          ingredient.user = 2; //TODO
+          ingredient.user = user;
 
           ingredientsToCreate.push(ingredient);
         }
@@ -38,19 +39,49 @@ export class IngredientsService {
     }
   }
 
-  findAll() {
-    return `This action returns all ingredients`;
+  async findAll(): Promise<Ingredient[]> {
+    const user = 2; //TODO
+    try {
+      const ingredients = await this.ingredientRepository.find({
+        relations: {
+          ingredientTags: {
+            tag: true,
+          },
+        },
+        where: {
+          user: Equal(user),
+        },
+        order: {
+          name: 'ASC',
+        },
+      });
+
+      return ingredients;
+    } catch (error) {
+      throw new GroceriesAppException('ingredient.get');
+    }
   }
 
-  findOne(id: number) {
-    return `This action returns a #${id} ingredient`;
+  async update(id: number, updateIngredientDto: UpdateIngredientDto) {
+    try {
+      const ingredient = new Ingredient();
+      ingredient.name = updateIngredientDto.name;
+      ingredient.id = id;
+
+      return await this.ingredientRepository.save(ingredient);
+    } catch (error) {
+      throw new GroceriesAppException('ingredient.update');
+    }
   }
 
-  update(id: number, updateIngredientDto: UpdateIngredientDto) {
-    return `This action updates a #${id} ingredient`;
-  }
+  async remove(id: number) {
+    try {
+      const ingredient = new Ingredient();
+      ingredient.id = id;
 
-  remove(id: number) {
-    return `This action removes a #${id} ingredient`;
+      return await this.ingredientRepository.remove(ingredient);
+    } catch (error) {
+      throw new GroceriesAppException('ingredient.remove');
+    }
   }
 }

@@ -1,34 +1,46 @@
-import { Controller, Get, Post, Body, Patch, Param, Delete } from '@nestjs/common';
+import {
+  Controller,
+  Post,
+  Body,
+  Param,
+  Delete,
+  InternalServerErrorException,
+  NotImplementedException,
+} from '@nestjs/common';
 import { IngredientTagsService } from './ingredient-tags.service';
 import { CreateIngredientTagDto } from './dto/create-ingredient-tag.dto';
-import { UpdateIngredientTagDto } from './dto/update-ingredient-tag.dto';
 
 @Controller('ingredient-tags')
 export class IngredientTagsController {
   constructor(private readonly ingredientTagsService: IngredientTagsService) {}
 
   @Post()
-  create(@Body() createIngredientTagDto: CreateIngredientTagDto) {
-    return this.ingredientTagsService.create(createIngredientTagDto);
-  }
+  async create(@Body() createIngredientTagDto: CreateIngredientTagDto) {
+    try {
+      return await this.ingredientTagsService.create(createIngredientTagDto);
+    } catch (error) {
+      switch (error.name) {
+        case 'ingredientTag.create':
+          throw new InternalServerErrorException('Error creating ingredient tag');
 
-  @Get()
-  findAll() {
-    return this.ingredientTagsService.findAll();
-  }
-
-  @Get(':id')
-  findOne(@Param('id') id: string) {
-    return this.ingredientTagsService.findOne(+id);
-  }
-
-  @Patch(':id')
-  update(@Param('id') id: string, @Body() updateIngredientTagDto: UpdateIngredientTagDto) {
-    return this.ingredientTagsService.update(+id, updateIngredientTagDto);
+        default:
+          throw new NotImplementedException(error);
+      }
+    }
   }
 
   @Delete(':id')
-  remove(@Param('id') id: string) {
-    return this.ingredientTagsService.remove(+id);
+  async remove(@Param('id') id: string) {
+    try {
+      return await this.ingredientTagsService.remove(+id);
+    } catch (error) {
+      switch (error.name) {
+        case 'ingredientTag.remove':
+          throw new InternalServerErrorException('Error removing ingredient tag');
+
+        default:
+          throw new NotImplementedException(error);
+      }
+    }
   }
 }
