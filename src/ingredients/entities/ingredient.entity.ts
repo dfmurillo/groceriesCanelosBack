@@ -1,4 +1,5 @@
 import { IngredientTag } from '@/ingredient-tags/entities/ingredient-tag.entity';
+import { MenuIngredient } from '@/menu-ingredients/entities/menu-ingredient.entity';
 import { User } from '@/users/entities/user.entity';
 import { Column, Entity, ManyToOne, OneToMany, PrimaryGeneratedColumn } from 'typeorm';
 
@@ -15,4 +16,7 @@ export class Ingredient {
 
   @OneToMany(() => IngredientTag, (ingredientTag) => ingredientTag.ingredient)
   ingredientTags: IngredientTag[];
+
+  @OneToMany(() => MenuIngredient, (menuIngredient) => menuIngredient.ingredient)
+  ingredientMenu: MenuIngredient[];
 }

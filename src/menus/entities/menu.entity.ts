@@ -1,21 +1,24 @@
-import { Ingredient } from '@/ingredients/entities/ingredient.entity';
+import { MenuIngredient } from '@/menu-ingredients/entities/menu-ingredient.entity';
 import { User } from '@/users/entities/user.entity';
-import { Column, Entity, ManyToOne, PrimaryGeneratedColumn } from 'typeorm';
+import { Column, Entity, ManyToOne, OneToMany, PrimaryGeneratedColumn } from 'typeorm';
 
 @Entity()
 export class Menu {
   @PrimaryGeneratedColumn()
   id: number;
 
-  @ManyToOne((type) => Ingredient, (ingredient) => ingredient.id)
-  ingredient: number;
-
-  @ManyToOne((type) => User, (user) => user.id)
+  @ManyToOne(() => User, (user) => user.id)
   user: number;
 
-  @Column()
-  quantity: number;
+  @Column({ nullable: true })
+  menuPax: number;
 
   @Column()
-  quatityType: string;
+  name: string;
+
+  @Column({ type: 'text', nullable: true })
+  detail: string;
+
+  @OneToMany(() => MenuIngredient, (menuIngredient) => menuIngredient.menu)
+  menuIngredient: MenuIngredient[];
 }

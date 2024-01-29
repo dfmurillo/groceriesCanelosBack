@@ -32,7 +32,7 @@ export class CategoriesService {
 
   async findAll(): Promise<Category[]> {
     const user = 2; // TODO
-    const categories = await this.categoryRepository.find({
+    return await this.categoryRepository.find({
       relations: ['categoryTags'],
       where: {
         user: Equal(user),
@@ -41,8 +41,6 @@ export class CategoriesService {
         name: 'ASC',
       },
     });
-
-    return categories;
   }
 
   async update(id: number, updateCategoryDto: UpdateCategoryDto) {

@@ -3,7 +3,7 @@ import { CreateMenuDto } from './create-menu.dto';
 
 export class UpdateMenuDto extends PartialType(CreateMenuDto) {
   id: number;
-  ingredient?: number;
-  quantity?: number;
-  quantityType?: string;
+  menuPax?: number;
+  name?: string;
+  detail?: string;
 }
