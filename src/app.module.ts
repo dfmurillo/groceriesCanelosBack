@@ -1,6 +1,4 @@
 import { Module } from '@nestjs/common';
-import { AppController } from './app.controller';
-import { AppService } from './app.service';
 import { AppConfigModule } from './config/app/app-config.module';
 import { TypeOrmService } from './config/type-orm/type-orm.service';
 import { TypeOrmModule } from '@nestjs/typeorm';
@@ -12,6 +10,8 @@ import { UsersModule } from './users/users.module';
 import { MenusModule } from './menus/menus.module';
 import { MealMenusModule } from './meal-menus/meal-menus.module';
 import { IngredientTagsModule } from './ingredient-tags/ingredient-tags.module';
+import { MenuIngredientsModule } from './menu-ingredients/menu-ingredients.module';
+import { MenuIngredient } from './menu-ingredients/entities/menu-ingredient.entity';
 
 @Module({
   imports: [
@@ -28,8 +28,10 @@ import { IngredientTagsModule } from './ingredient-tags/ingredient-tags.module';
     MenusModule,
     MealMenusModule,
     IngredientTagsModule,
+    MenuIngredientsModule,
+    MenuIngredient,
   ],
-  controllers: [AppController],
-  providers: [AppService, TypeOrmService],
+  controllers: [],
+  providers: [TypeOrmService],
 })
 export class AppModule {}

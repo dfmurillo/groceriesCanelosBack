@@ -1,6 +1,5 @@
 export class CreateMenuDto {
-  ingredient: number;
-  quantity: number;
-  quantityType: string;
-  user: number;
+  menuPax?: number;
+  name: string;
+  detail?: string;
 }
