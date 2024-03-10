@@ -54,16 +54,8 @@ export class MenuIngredientsService {
     updateMenuIngredientDto: UpdateMenuIngredientDto,
   ): Promise<MenuIngredient> {
     try {
-      const ingredient = new Ingredient();
-      ingredient.id = updateMenuIngredientDto.ingredient;
-
-      const menu = new Menu();
-      menu.id = updateMenuIngredientDto.menu;
-
       const menuIngredient = new MenuIngredient();
       menuIngredient.id = id;
-      menuIngredient.menu = menu;
-      menuIngredient.ingredient = ingredient;
       menuIngredient.ingredientQuantity = updateMenuIngredientDto.ingredientQuantity;
       menuIngredient.ingredientQuantityType = updateMenuIngredientDto.ingredientQuantityType;
 
