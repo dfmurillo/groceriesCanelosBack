@@ -7,7 +7,7 @@ import { CategoriesModule } from './categories/categories.module';
 import { IngredientsModule } from './ingredients/ingredients.module';
 import { UsersModule } from './users/users.module';
 import { MenusModule } from './menus/menus.module';
-import { MealMenusModule } from './meal-menus/meal-menus.module';
+import { MenuMealsModule } from './menu-meals/menu-meals.module';
 import { IngredientTagsModule } from './ingredient-tags/ingredient-tags.module';
 import { MenuIngredientsModule } from './menu-ingredients/menu-ingredients.module';
 import { MenuIngredient } from './menu-ingredients/entities/menu-ingredient.entity';
@@ -25,7 +25,7 @@ import { MenuTagsModule } from './menu-tags/menu-tags.module';
     IngredientsModule,
     UsersModule,
     MenusModule,
-    MealMenusModule,
+    MenuMealsModule,
     IngredientTagsModule,
     MenuIngredientsModule,
     MenuIngredient,

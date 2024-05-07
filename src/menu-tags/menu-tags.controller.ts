@@ -1,7 +1,14 @@
-import { Controller, Get, Post, Body, Patch, Param, Delete } from '@nestjs/common';
+import {
+  Controller,
+  Post,
+  Body,
+  Param,
+  Delete,
+  InternalServerErrorException,
+  NotImplementedException,
+} from '@nestjs/common';
 import { MenuTagsService } from './menu-tags.service';
 import { CreateMenuTagDto } from './dto/create-menu-tag.dto';
-import { UpdateMenuTagDto } from './dto/update-menu-tag.dto';
 import { ApiTags, ApiOperation, ApiResponse, ApiParam, ApiBody } from '@nestjs/swagger';
 
 @ApiTags('Menus')
@@ -14,48 +21,18 @@ export class MenuTagsController {
   @ApiResponse({ status: 201, description: 'Menu-tag association successfully created.' })
   @ApiResponse({ status: 400, description: 'Invalid input data.' })
   @Post()
-  create(@Body() createMenuTagDto: CreateMenuTagDto) {
-    return this.menuTagsService.create(createMenuTagDto);
-  }
+  async create(@Body() createMenuTagDto: CreateMenuTagDto) {
+    try {
+      return await this.menuTagsService.create(createMenuTagDto);
+    } catch (error) {
+      switch (error.name) {
+        case 'menuTag.create':
+          throw new InternalServerErrorException('Error creating menu tag');
 
-  @ApiOperation({ summary: 'Retrieve all menu-tag associations' })
-  @ApiResponse({
-    status: 200,
-    description: 'List of menu-tag associations retrieved successfully.',
-  })
-  @ApiResponse({ status: 500, description: 'Internal server error.' })
-  @Get()
-  findAll() {
-    return this.menuTagsService.findAll();
-  }
-
-  @ApiOperation({ summary: 'Retrieve a specific menu-tag association by ID' })
-  @ApiParam({
-    name: 'id',
-    description: 'The ID of the menu-tag association to retrieve',
-    example: '12345',
-  })
-  @ApiResponse({ status: 200, description: 'Menu-tag association retrieved successfully.' })
-  @ApiResponse({ status: 404, description: 'Menu-tag association not found.' })
-  @ApiResponse({ status: 500, description: 'Internal server error.' })
-  @Get(':id')
-  findOne(@Param('id') id: string) {
-    return this.menuTagsService.findOne(+id);
-  }
-
-  @ApiOperation({ summary: 'Update a specific menu-tag association by ID' })
-  @ApiParam({
-    name: 'id',
-    description: 'The ID of the menu-tag association to update',
-    example: '12345',
-  })
-  @ApiBody({ type: UpdateMenuTagDto, description: 'The updated data for the menu-tag association' })
-  @ApiResponse({ status: 200, description: 'Menu-tag association successfully updated.' })
-  @ApiResponse({ status: 404, description: 'Menu-tag association not found.' })
-  @ApiResponse({ status: 500, description: 'Internal server error.' })
-  @Patch(':id')
-  update(@Param('id') id: string, @Body() updateMenuTagDto: UpdateMenuTagDto) {
-    return this.menuTagsService.update(+id, updateMenuTagDto);
+        default:
+          throw new NotImplementedException(error);
+      }
+    }
   }
 
   @ApiOperation({ summary: 'Delete a specific menu-tag association by ID' })
@@ -68,7 +45,17 @@ export class MenuTagsController {
   @ApiResponse({ status: 404, description: 'Menu-tag association not found.' })
   @ApiResponse({ status: 500, description: 'Internal server error.' })
   @Delete(':id')
-  remove(@Param('id') id: string) {
-    return this.menuTagsService.remove(+id);
+  async remove(@Param('id') id: string) {
+    try {
+      return await this.menuTagsService.remove(+id);
+    } catch (error) {
+      switch (error.name) {
+        case 'menuTag.remove':
+          throw new InternalServerErrorException('Error removing menu tag');
+
+        default:
+          throw new NotImplementedException(error);
+      }
+    }
   }
 }

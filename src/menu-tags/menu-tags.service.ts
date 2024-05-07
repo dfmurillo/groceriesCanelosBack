@@ -1,26 +1,45 @@
 import { Injectable } from '@nestjs/common';
 import { CreateMenuTagDto } from './dto/create-menu-tag.dto';
-import { UpdateMenuTagDto } from './dto/update-menu-tag.dto';
+import { InjectRepository } from '@nestjs/typeorm';
+import { MenuTag } from './entities/menu-tag.entity';
+import { Repository } from 'typeorm';
+import { Menu } from '@/menus/entities/menu.entity';
+import { Tag } from '@/tags/entities/tag.entity';
+import { GroceriesAppException } from '@/infra/errors/general.exception';
 
 @Injectable()
 export class MenuTagsService {
-  create(createMenuTagDto: CreateMenuTagDto) {
-    return 'This action adds a new menuTag';
+  constructor(
+    @InjectRepository(MenuTag)
+    private readonly menuTagRepository: Repository<MenuTag>,
+  ) {}
+
+  async create(createMenuTagDto: CreateMenuTagDto) {
+    try {
+      const menu = new Menu();
+      menu.id = createMenuTagDto.menu;
+
+      const tag = new Tag();
+      tag.id = createMenuTagDto.tag;
+
+      const menuTag = new MenuTag();
+      menuTag.menu = menu;
+      menuTag.tag = tag;
+
+      return await this.menuTagRepository.save(menuTag);
+    } catch (error) {
+      throw new GroceriesAppException('menuTag.create');
+    }
   }
 
-  findAll() {
-    return `This action returns all menuTags`;
-  }
+  async remove(id: number) {
+    try {
+      const menuTag = new MenuTag();
+      menuTag.id = id;
 
-  findOne(id: number) {
-    return `This action returns a #${id} menuTag`;
-  }
-
-  update(id: number, updateMenuTagDto: UpdateMenuTagDto) {
-    return `This action updates a #${id} menuTag`;
-  }
-
-  remove(id: number) {
-    return `This action removes a #${id} menuTag`;
+      return await this.menuTagRepository.remove(menuTag);
+    } catch (error) {
+      throw new GroceriesAppException('menuTag.remove');
+    }
   }
 }

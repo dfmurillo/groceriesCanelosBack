@@ -1,10 +1,10 @@
 import { Injectable } from '@nestjs/common';
-import { CreateMealMenuDto } from './dto/create-meal-menu.dto';
-import { UpdateMealMenuDto } from './dto/update-meal-menu.dto';
+import { CreateMenuMealDto } from './dto/create-menu-meal.dto';
+import { UpdateMenuMealDto } from './dto/update-menu-meal.dto';
 
 @Injectable()
-export class MealMenusService {
-  create(createMealMenuDto: CreateMealMenuDto) {
+export class MenuMealsService {
+  create(createMenuMealDto: CreateMenuMealDto) {
     return 'This action adds a new mealMenu';
   }
 
@@ -16,7 +16,7 @@ export class MealMenusService {
     return `This action returns a #${id} mealMenu`;
   }
 
-  update(id: number, updateMealMenuDto: UpdateMealMenuDto) {
+  update(id: number, updateMenuMealDto: UpdateMenuMealDto) {
     return `This action updates a #${id} mealMenu`;
   }
 
