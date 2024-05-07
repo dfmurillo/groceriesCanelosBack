@@ -1,6 +1,5 @@
 import { Category } from '@/categories/entities/category.entity';
 import { Ingredient } from '@/ingredients/entities/ingredient.entity';
-import { Meal } from '@/meals/entities/meal.entity';
 import { Menu } from '@/menus/entities/menu.entity';
 import { Column, Entity, OneToMany, PrimaryGeneratedColumn } from 'typeorm';
 
@@ -30,9 +29,6 @@ export class User {
 
   @OneToMany((type) => Category, (category) => category.user)
   userCategories: Category[];
-
-  @OneToMany((type) => Meal, (meal) => meal.user)
-  userMeals: Meal[];
 
   @OneToMany((type) => Ingredient, (ingredient) => ingredient.user)
   userIngredients: Ingredient[];

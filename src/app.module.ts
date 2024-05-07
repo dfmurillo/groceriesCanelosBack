@@ -5,13 +5,13 @@ import { TypeOrmModule } from '@nestjs/typeorm';
 import { TagsModule } from './tags/tags.module';
 import { CategoriesModule } from './categories/categories.module';
 import { IngredientsModule } from './ingredients/ingredients.module';
-import { MealsModule } from './meals/meals.module';
 import { UsersModule } from './users/users.module';
 import { MenusModule } from './menus/menus.module';
 import { MealMenusModule } from './meal-menus/meal-menus.module';
 import { IngredientTagsModule } from './ingredient-tags/ingredient-tags.module';
 import { MenuIngredientsModule } from './menu-ingredients/menu-ingredients.module';
 import { MenuIngredient } from './menu-ingredients/entities/menu-ingredient.entity';
+import { MenuTagsModule } from './menu-tags/menu-tags.module';
 
 @Module({
   imports: [
@@ -23,13 +23,13 @@ import { MenuIngredient } from './menu-ingredients/entities/menu-ingredient.enti
     CategoriesModule,
     TagsModule,
     IngredientsModule,
-    MealsModule,
     UsersModule,
     MenusModule,
     MealMenusModule,
     IngredientTagsModule,
     MenuIngredientsModule,
     MenuIngredient,
+    MenuTagsModule,
   ],
   controllers: [],
   providers: [TypeOrmService],

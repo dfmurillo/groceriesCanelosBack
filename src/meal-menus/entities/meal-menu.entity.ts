@@ -1,4 +1,3 @@
-import { Meal } from '@/meals/entities/meal.entity';
 import { Menu } from '@/menus/entities/menu.entity';
 import { Column, Entity, ManyToOne, PrimaryGeneratedColumn } from 'typeorm';
 
@@ -10,8 +9,8 @@ export class MealMenu {
   @ManyToOne((type) => Menu, (menu) => menu.id)
   menu: number;
 
-  @ManyToOne((type) => Meal, (meal) => meal.id)
-  meal: number;
+  @Column('decimal')
+  mealOrder: number;
 
   @Column('date')
   mealDate: Date;
