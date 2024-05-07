@@ -2,7 +2,9 @@ import { Controller, Get, Post, Body, Patch, Param, Delete } from '@nestjs/commo
 import { MenuTagsService } from './menu-tags.service';
 import { CreateMenuTagDto } from './dto/create-menu-tag.dto';
 import { UpdateMenuTagDto } from './dto/update-menu-tag.dto';
+import { ApiTags } from '@nestjs/swagger';
 
+@ApiTags('Menus')
 @Controller('menu-tags')
 export class MenuTagsController {
   constructor(private readonly menuTagsService: MenuTagsService) {}

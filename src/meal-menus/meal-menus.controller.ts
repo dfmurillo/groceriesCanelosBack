@@ -2,7 +2,9 @@ import { Controller, Get, Post, Body, Patch, Param, Delete } from '@nestjs/commo
 import { MealMenusService } from './meal-menus.service';
 import { CreateMealMenuDto } from './dto/create-meal-menu.dto';
 import { UpdateMealMenuDto } from './dto/update-meal-menu.dto';
+import { ApiTags } from '@nestjs/swagger';
 
+@ApiTags('Menus')
 @Controller('meal-menus')
 export class MealMenusController {
   constructor(private readonly mealMenusService: MealMenusService) {}
