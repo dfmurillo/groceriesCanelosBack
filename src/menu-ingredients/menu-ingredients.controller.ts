@@ -11,7 +11,9 @@ import {
 import { MenuIngredientsService } from './menu-ingredients.service';
 import { CreateMenuIngredientDto } from './dto/create-menu-ingredient.dto';
 import { UpdateMenuIngredientDto } from './dto/update-menu-ingredient.dto';
+import { ApiTags } from '@nestjs/swagger';
 
+@ApiTags('Menus')
 @Controller('menu-ingredients')
 export class MenuIngredientsController {
   constructor(private readonly menuIngredientsService: MenuIngredientsService) {}
