@@ -1,6 +1,6 @@
 import { Ingredient } from '@/ingredients/entities/ingredient.entity';
 import { Menu } from '@/menus/entities/menu.entity';
-import { ColumnNumericTransformer } from '@/misc/ColumnNumericTransformer';
+import { ColumnNumericTransformer } from '@/transformers/ColumnNumericTransformer';
 import { Column, Entity, ManyToOne, PrimaryGeneratedColumn } from 'typeorm';
 
 @Entity()

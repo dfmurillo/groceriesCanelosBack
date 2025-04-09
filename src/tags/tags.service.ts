@@ -20,7 +20,7 @@ export class TagsService {
         createTagDto = [createTagDto];
       }
 
-      const tagsToCreate = [];
+      const tagsToCreate: Tag[] = [];
 
       for (const key in createTagDto) {
         if (Object.prototype.hasOwnProperty.call(createTagDto, key)) {

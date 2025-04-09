@@ -30,8 +30,7 @@ export class MenuIngredientsService {
           const ingredient = new Ingredient();
           ingredient.id = menuIngredientDto.ingredient;
 
-          const menu = new Menu();
-          menu.id = menuIngredientDto.menu;
+          const menu = new Menu(menuIngredientDto.menu);
 
           const menuIngredient = new MenuIngredient();
           menuIngredient.menu = menu;

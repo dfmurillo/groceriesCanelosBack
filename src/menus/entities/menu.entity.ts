@@ -5,6 +5,10 @@ import { Column, Entity, ManyToOne, OneToMany, PrimaryGeneratedColumn } from 'ty
 
 @Entity()
 export class Menu {
+  constructor(menuId?) {
+    if (menuId) this.id = menuId;
+  }
+
   @PrimaryGeneratedColumn()
   id: number;
 

@@ -7,7 +7,7 @@ export class MenuMeal {
   id: number;
 
   @ManyToOne(() => Menu, (menu) => menu.id)
-  menu: number;
+  menu: Menu;
 
   @Column('decimal')
   mealOrder: number;

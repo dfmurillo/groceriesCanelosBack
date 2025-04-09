@@ -16,8 +16,7 @@ export class MenuTagsService {
 
   async create(createMenuTagDto: CreateMenuTagDto) {
     try {
-      const menu = new Menu();
-      menu.id = createMenuTagDto.menu;
+      const menu = new Menu(createMenuTagDto.menu);
 
       const tag = new Tag();
       tag.id = createMenuTagDto.tag;
