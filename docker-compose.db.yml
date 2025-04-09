@@ -27,3 +27,19 @@ volumes:
   pgadmin:
     name: pgadmin-data
   
+
+# To run the containers, use the following command:
+# npm run docker:db
+# To put down the containers, use the following command:
+# npm run docker:db:down
+# When is a new installation don't forget to connect pgadmin to the database:
+# 1. Open pgAdmin in your browser at http://localhost:8888
+# 2. Log in with the credentials you set in the docker-compose file
+# 3. Right-click on "Servers" and select "Create" > "Server..."
+# 4. In the "General" tab, give your server a name (e.g., "Postgres Server")
+# 5. In the "Connection" tab, enter the following details:
+#    - Host: postgres
+#    - Port: 5432
+#    - Username: groceries_user
+#    - Password: groceries_pass
+# 6. Click "Save" to create the server connection

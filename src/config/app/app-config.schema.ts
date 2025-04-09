@@ -11,4 +11,5 @@ export const appConfigValidationSchema = Joi.object({
   NAME: Joi.string().required(),
   POSTGRES_HOST: Joi.string().required(),
   POSTGRES_PORT: Joi.number().required(),
+  TEMP_ID_USER: Joi.number().required(),
 });

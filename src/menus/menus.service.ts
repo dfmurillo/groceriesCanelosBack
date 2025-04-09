@@ -5,17 +5,19 @@ import { GroceriesAppException } from '@/infra/errors/general.exception';
 import { InjectRepository } from '@nestjs/typeorm';
 import { Menu } from './entities/menu.entity';
 import { Equal, Repository } from 'typeorm';
+import { AppConfigService } from '@/config/app/app-config.service';
 
 @Injectable()
 export class MenusService {
   constructor(
     @InjectRepository(Menu)
     private readonly menuRepository: Repository<Menu>,
+    private readonly appConfigService: AppConfigService,
   ) {}
 
   async create(createMenuDto: CreateMenuDto) {
     try {
-      const user = 2; // TODO
+      const user = this.appConfigService.tempIdUser; // TODO
       const menu = new Menu();
       if (createMenuDto.detail) menu.detail = createMenuDto.detail;
       if (createMenuDto.menuPax) menu.menuPax = createMenuDto.menuPax;
@@ -31,7 +33,7 @@ export class MenusService {
 
   async findAll() {
     try {
-      const user = 2; // TODO
+      const user = this.appConfigService.tempIdUser; // TODO
       return await this.menuRepository.find({
         relations: {
           menuIngredient: {
@@ -52,7 +54,7 @@ export class MenusService {
 
   async findOne(id: number) {
     try {
-      const user = 2; // TODO
+      const user = this.appConfigService.tempIdUser; // TODO
       return await this.menuRepository.findOne({
         relations: {
           menuIngredient: {
@@ -71,9 +73,8 @@ export class MenusService {
 
   async update(id: number, updateMenuDto: UpdateMenuDto) {
     try {
-      const user = 2; // TODO
+      const user = this.appConfigService.tempIdUser; // TODO
       const menu = new Menu();
-      menu.id = id;
       if (updateMenuDto.detail) menu.detail = updateMenuDto.detail;
       if (updateMenuDto.menuPax) menu.menuPax = updateMenuDto.menuPax;
 
@@ -89,7 +90,6 @@ export class MenusService {
   async remove(id: number) {
     try {
       const menu = new Menu();
-      menu.id = id;
 
       return await this.menuRepository.remove(menu);
     } catch (error) {

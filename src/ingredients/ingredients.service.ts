@@ -5,16 +5,18 @@ import { Ingredient } from './entities/ingredient.entity';
 import { InjectRepository } from '@nestjs/typeorm';
 import { Equal, Repository } from 'typeorm';
 import { GroceriesAppException } from '@/infra/errors/general.exception';
+import { AppConfigService } from '@/config/app/app-config.service';
 
 @Injectable()
 export class IngredientsService {
   constructor(
     @InjectRepository(Ingredient)
     private readonly ingredientRepository: Repository<Ingredient>,
+    private readonly appConfigService: AppConfigService,
   ) {}
 
   async create(createIngredientDto: CreateIngredientDto | CreateIngredientDto[]) {
-    const user = 2; // TODO
+    const user = this.appConfigService.tempIdUser; // TODO
     try {
       if (!Array.isArray(createIngredientDto)) {
         createIngredientDto = [createIngredientDto];
@@ -40,7 +42,7 @@ export class IngredientsService {
   }
 
   async findAll(): Promise<Ingredient[]> {
-    const user = 2; //TODO
+    const user = this.appConfigService.tempIdUser; //TODO
     try {
       const ingredients = await this.ingredientRepository.find({
         relations: {
