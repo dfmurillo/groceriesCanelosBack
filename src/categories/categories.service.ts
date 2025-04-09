@@ -6,17 +6,19 @@ import { Equal, Repository } from 'typeorm';
 import { GroceriesAppException } from '@/infra/errors/general.exception';
 import { User } from '@/users/entities/user.entity';
 import { UpdateCategoryDto } from './dto/update-category.dto';
+import { AppConfigService } from '@/config/app/app-config.service';
 
 @Injectable()
 export class CategoriesService {
   constructor(
     @InjectRepository(Category)
     private readonly categoryRepository: Repository<Category>,
+    private readonly appConfigService: AppConfigService,
   ) {}
 
   async create(createCategoryDto: CreateCategoryDto): Promise<Category> {
     try {
-      const user = new User(2); // TODO: singleton of the connected user
+      const user = new User(this.appConfigService.tempIdUser); // TODO
 
       const category = new Category();
       category.name = createCategoryDto.name;
@@ -31,7 +33,7 @@ export class CategoriesService {
   }
 
   async findAll(): Promise<Category[]> {
-    const user = 2; // TODO
+    const user = this.appConfigService.tempIdUser; // TODO
     return await this.categoryRepository.find({
       relations: ['categoryTags'],
       where: {

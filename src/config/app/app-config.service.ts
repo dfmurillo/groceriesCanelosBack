@@ -44,4 +44,8 @@ export class AppConfigService {
   get postgresPort(): number {
     return this.configService.get<number>('app.postgresPort');
   }
+
+  get tempIdUser(): number {
+    return this.configService.get<number>('app.tempIdUser');
+  }
 }

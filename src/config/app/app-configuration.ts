@@ -11,4 +11,5 @@ export default registerAs('app', () => ({
   postgresUser: process.env.POSTGRES_USER,
   swaggerDescription: process.env.SWAGGER_DESCRIPTION,
   swaggerPath: process.env.SWAGGER_PATH,
+  tempIdUser: Number(process.env.TEMP_ID_USER),
 }));
