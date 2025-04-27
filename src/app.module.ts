@@ -12,6 +12,7 @@ import { IngredientTagsModule } from './ingredient-tags/ingredient-tags.module';
 import { MenuIngredientsModule } from './menu-ingredients/menu-ingredients.module';
 import { MenuIngredient } from './menu-ingredients/entities/menu-ingredient.entity';
 import { MenuTagsModule } from './menu-tags/menu-tags.module';
+import { SeedModule } from './infra/seed/seed.module';
 
 @Module({
   imports: [
@@ -30,6 +31,7 @@ import { MenuTagsModule } from './menu-tags/menu-tags.module';
     MenuIngredientsModule,
     MenuIngredient,
     MenuTagsModule,
+    SeedModule,
   ],
   controllers: [],
   providers: [TypeOrmService],

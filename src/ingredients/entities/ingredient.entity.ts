@@ -12,7 +12,7 @@ export class Ingredient {
   name: string;
 
   @ManyToOne(() => User, (user) => user.id)
-  user: number;
+  user: User;
 
   @OneToMany(() => IngredientTag, (ingredientTag) => ingredientTag.ingredient)
   ingredientTags: IngredientTag[];
