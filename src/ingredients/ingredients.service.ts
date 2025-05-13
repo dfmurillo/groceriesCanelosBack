@@ -43,7 +43,7 @@ export class IngredientsService {
   }
 
   async findAll(): Promise<Ingredient[]> {
-    const user = new User(this.appConfigService.tempIdUser); // TODO
+    const user = this.appConfigService.tempIdUser; // TODO
     try {
       const ingredients = await this.ingredientRepository.find({
         relations: {

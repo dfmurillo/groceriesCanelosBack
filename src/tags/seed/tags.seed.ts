@@ -1,7 +1,7 @@
-import { SeedTagDto } from '@/tags/dto/seed-tag.dto';
 import { Category } from '@/categories/entities/category.entity';
+import { Tag } from '@/tags/entities/tag.entity';
 
-export const tagsSeed = (categories: Category[]): SeedTagDto[] => {
+export const tagsSeed = (categories: Category[]): Partial<Tag>[] => {
   const phasesCategory = categories[0];
   const dayCategory = categories[1];
   const groupCategory = categories[2];
@@ -29,7 +29,7 @@ export const tagsSeed = (categories: Category[]): SeedTagDto[] => {
       category: dayCategory,
     },
     {
-      name: 'Miercoles',
+      name: 'Miércoles',
       category: dayCategory,
     },
     {
@@ -41,7 +41,7 @@ export const tagsSeed = (categories: Category[]): SeedTagDto[] => {
       category: dayCategory,
     },
     {
-      name: 'Sabado',
+      name: 'Sábado',
       category: dayCategory,
     },
     {

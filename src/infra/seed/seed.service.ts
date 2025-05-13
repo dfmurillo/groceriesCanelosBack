@@ -4,10 +4,12 @@ import { User } from '@/users/entities/user.entity';
 import { Category } from '@/categories/entities/category.entity';
 import { Tag } from '@/tags/entities/tag.entity';
 import { Ingredient } from '@/ingredients/entities/ingredient.entity';
+import { IngredientTag } from '@/ingredient-tags/entities/ingredient-tag.entity';
 import { usersSeed } from '@/users/seed/users.seed';
 import { categoriesSeed } from '@/categories/seed/categories.seed';
 import { tagsSeed } from '@/tags/seed/tags.seed';
 import { ingredientsSeed } from '@/ingredients/seed/ingredients.seed';
+import { ingredientTagsSeed } from '@/ingredient-tags/seed/ingredient-tags.seed';
 
 @Injectable()
 export class SeedService {
@@ -37,13 +39,18 @@ export class SeedService {
 
       // Seed tags with categories
       const tagsData = tagsSeed(savedCategories);
-      await queryRunner.manager.save(Tag, tagsData);
+      const savedTags = await queryRunner.manager.save(Tag, tagsData);
       this.logger.log('Successfully seeded tags');
 
       // Seed ingredients with admin user
       const ingredientsData = ingredientsSeed(savedUsers);
-      await queryRunner.manager.save(Ingredient, ingredientsData);
+      const savedIngredients = await queryRunner.manager.save(Ingredient, ingredientsData);
       this.logger.log('Successfully seeded ingredients');
+
+      // Seed ingredient-tags
+      const ingredientTagsData = ingredientTagsSeed(savedIngredients, savedTags);
+      await queryRunner.manager.save(IngredientTag, ingredientTagsData);
+      this.logger.log('Successfully seeded ingredient-tags');
 
       await queryRunner.commitTransaction();
     } catch (error) {
