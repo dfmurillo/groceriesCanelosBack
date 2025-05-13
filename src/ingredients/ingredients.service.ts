@@ -6,6 +6,7 @@ import { InjectRepository } from '@nestjs/typeorm';
 import { Equal, Repository } from 'typeorm';
 import { GroceriesAppException } from '@/infra/errors/general.exception';
 import { AppConfigService } from '@/config/app/app-config.service';
+import { User } from '@/users/entities/user.entity';
 
 @Injectable()
 export class IngredientsService {
@@ -16,7 +17,7 @@ export class IngredientsService {
   ) {}
 
   async create(createIngredientDto: CreateIngredientDto | CreateIngredientDto[]) {
-    const user = this.appConfigService.tempIdUser; // TODO
+    const user = new User(this.appConfigService.tempIdUser); // TODO
     try {
       if (!Array.isArray(createIngredientDto)) {
         createIngredientDto = [createIngredientDto];
@@ -42,7 +43,7 @@ export class IngredientsService {
   }
 
   async findAll(): Promise<Ingredient[]> {
-    const user = this.appConfigService.tempIdUser; //TODO
+    const user = this.appConfigService.tempIdUser; // TODO
     try {
       const ingredients = await this.ingredientRepository.find({
         relations: {
